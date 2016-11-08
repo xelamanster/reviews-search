@@ -1,7 +1,8 @@
 # Reviews-search
 
 The project is uses Akka and EllasticSearch. Reviews data should be loaded to the ES.
-At the current state need to import data to the ES using LogStash. Also need to manually set ES server location in code (if not default)
+At the current state need to import data to the ES using LogStash. Also need to manually set ES server location in code (if not default).
+Provided logstash-test.conf should change ES, reviews and sinceDb locations.
 
 For correct search results. All fields should be not_analyzed except of text, for full text search of frequent words.
 
