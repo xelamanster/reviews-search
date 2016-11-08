@@ -16,7 +16,7 @@ Project can be prepared to deployment as a docker image 	that contains applicati
 Can be achieved by using standard scripts to show memory used by docker containers, and using tools like visual vm for connecting to the ES or application's vm.
 
 ### Distribution:
-Akka and ES well scales horizontally. For that should add additional configurations for sharding.
+Akka and ES can scale well horizontally. For that should add additional sharding configurations.
 
 
 ## NOT finished:
