@@ -52,10 +52,13 @@ Google translate api provide ability to choose few text parameters, so solution 
 If use description of the api from the task, where only one text argument available solutions is:
 
 Count dots(need to test with other punctuation marks), concatenate few texts and after translation split them by counting marks. If review don't end with dot put it in the end of the query. If there are no reviews that ends with dot - put additional dots in reviews that will be in the middle of the query (Also can remove them after translation).
- 
-### Using arguments: 
- - Add translate parameter, path to the file with reviews;
+
+### Code maintainability and readability:
+ - Documentation;
  - Move search invocations from MasterActor;
  - Move uses of the storage calls to one place;
  - Make translation api more abstract;
  - Overall code review;
+
+### Using arguments: 
+ - Add translate parameter, path to the file with reviews;
