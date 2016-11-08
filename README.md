@@ -1,12 +1,12 @@
 # Reviews-search
 
-The project is uses Akka and EllasticSearch. Reviews data should load and index in the ES.
+The project is uses Akka and EllasticSearch. Reviews data should be loaded to the ES.
 At the current state need to import data to the ES using LogStash. Also need to manually set ES server location in code (if not default)
 
 For correct search results. All fields should be not_analyzed except of text, for full text search of frequent words.
 
 ## Questions
-Duplicates:
+### Duplicates:
 Can be eliminated by producing Id for documents in es. If 	there are entries with different Id but same other 	content, then need to manual set search queries  to find 	and remove duplicates.
 
 ### Memory:
