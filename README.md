@@ -54,7 +54,6 @@ Count dots(need to test with other punctuation marks), concatenate few texts and
  
 ### Using arguments: 
  - Add translate parameter, path to the file with reviews;
- - Code refactoring;
  - Move search invocations from MasterActor;
  - Move uses of the storage calls to one place;
  - Make translation api more abstract;
