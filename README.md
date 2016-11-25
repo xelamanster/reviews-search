@@ -62,5 +62,3 @@ Count dots(need to test with other punctuation marks), concatenate few texts and
 
 ### Using arguments: 
  - Add translate parameter, path to the file with reviews;
-
- ## Time spent: around 5 hours.
