@@ -12,4 +12,6 @@ object Settings {
       .appName(appName)
       .master(nodeConfig)
       .getOrCreate()
+
+  session.sparkContext.setLogLevel("ERROR")
 }

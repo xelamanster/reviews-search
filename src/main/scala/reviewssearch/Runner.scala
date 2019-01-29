@@ -1,28 +1,23 @@
 package reviewssearch
 
-import java.nio.file.Paths
-
 import org.apache.spark.sql.functions._
 import reviewssearch.storage.Settings
 import reviewssearch.storage.algebra.ReviewsAlgebra
 import reviewssearch.storage.model.{Review, WordCount}
+import utils.ClosableWrapper
+
+import java.nio.file.{FileSystems, Paths}
+import java.util
+import java.net.URI
+
+import ReviewsAlgebra._
 
 object Runner {
 
   def main(args: Array[String]): Unit = {
-    val resource = "/Reviews.csv"
-
-    val path = Paths.get(getClass.getResource(resource).toURI).toString
+    val resource = raw"D:/Projects/xelamanster/reviews-search/src/main/resources/Reviews.csv"
 
     import reviewssearch.storage.Settings.session.implicits._
-
-    val reviews = Settings.session.read
-      .option("header", "true")
-      .option("charset", "UTF8")
-      .option("delimiter", ",")
-      .schema(Review.schema)
-      .csv(path)
-      .as[Review]
 
     val predicates =
       List(
@@ -46,14 +41,22 @@ object Runner {
         "but"
       )
 
-    ReviewsAlgebra.findMost(_.ProfileName, reviews).show()
-    ReviewsAlgebra.findMost(_.ProductId, reviews).show()
+    ClosableWrapper(Settings.session) { s =>
+      val reviews = s.read
+        .option("header", "true")
+        .option("charset", "UTF8")
+        .option("delimiter", ",")
+        .schema(Review.schema)
+        .csv(resource)
+        .as[Review]
 
-    ReviewsAlgebra
-      .countUsedWords[WordCount](Review.Fields.Text, WordCount.Delimiter, reviews)
-      .filter(not(col(WordCount.Fields.Word).isin(predicates: _*)))
-      .filter(length(col(WordCount.Fields.Word)) > 5)
-      .rdd
+      findTop(_.ProfileName, reviews).show()
+      findTop(_.ProductId, reviews).show()
 
+      countUsedWords[WordCount](Review.Fields.Text, WordCount.Delimiter, reviews)
+        .filter(not(col(WordCount.Fields.Word).isin(predicates: _*)))
+        .filter(length(col(WordCount.Fields.Word)) > 5)
+        .show()
+    }
   }
 }

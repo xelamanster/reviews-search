@@ -1,8 +1,9 @@
 package reviewssearch.storage.model
 
 import java.sql.Timestamp
-
 import org.apache.spark.sql.types._
+
+import Review.Fields._
 
 object Review {
   object Fields {
@@ -17,8 +18,6 @@ object Review {
     final val Summary: String = "Summary"
     final val Text: String = "Text"
   }
-
-  import Fields._
 
   val schema = StructType(
     Array(
@@ -56,4 +55,5 @@ object WordCount {
     final val Count: String = "count"
   }
 }
+
 case class WordCount(word: String, count: Long)
