@@ -1,4 +1,4 @@
-package reviewssearch
+package reviewssearch.storage.model
 
 import java.sql.Timestamp
 
@@ -36,16 +36,18 @@ object Review {
   )
 }
 
-case class Review(Id: Option[Long],
-                  ProductId: String,
-                  UserId: String,
-                  ProfileName: String,
-                  HelpfulnessNumerator: Option[Int],
-                  HelpfulnessDenominator: Option[Int],
-                  Score: Option[Int],
-                  Time: Timestamp,
-                  Summary: String,
-                  Text: String)
+case class Review(
+    Id: Option[Long],
+    ProductId: String,
+    UserId: String,
+    ProfileName: String,
+    HelpfulnessNumerator: Option[Int],
+    HelpfulnessDenominator: Option[Int],
+    Score: Option[Int],
+    Time: Timestamp,
+    Summary: String,
+    Text: String
+)
 
 object WordCount {
   final val Delimiter = " "

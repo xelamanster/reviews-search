@@ -1,8 +1,9 @@
-package reviewssearch
+package reviewssearch.storage.algebra
 
 import org.apache.spark.sql.expressions.scalalang.typed.count
+import org.apache.spark.sql.functions.{col, desc, explode, split}
 import org.apache.spark.sql.{Dataset, Encoder}
-import org.apache.spark.sql.functions._
+import reviewssearch.storage.model.Review
 
 object ReviewsAlgebra {
   private final val Count = "count"
@@ -15,9 +16,11 @@ object ReviewsAlgebra {
       .filter(col(Value).isNotNull)
       .sort(desc(Count))
 
-  def countUsedWords[R: Encoder](fieldToSplit: String,
-                                 pattern: String,
-                                 in: Dataset[Review]): Dataset[R] =
+  def countUsedWords[R: Encoder](
+      fieldToSplit: String,
+      pattern: String,
+      in: Dataset[Review]
+  ): Dataset[R] =
     in.withColumn(Word, explode(split(col(fieldToSplit), pattern)))
       .groupBy(col(Word))
       .count()

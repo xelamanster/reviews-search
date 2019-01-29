@@ -1,4 +1,4 @@
-package reviewssearch
+package reviewssearch.storage
 
 import org.apache.spark.sql.SparkSession
 

@@ -5,8 +5,9 @@ project/boot/
 .history
 .cache
 .idea/
-
-# sbt specific
+.vscode/
+.metals/
+.bloop/
 .lib/
 dist/*
 project/plugins/project/
