@@ -46,7 +46,6 @@ object Runner {
 
     acquired.foreach {
       case (timings, (products, users, words)) =>
-        println("------------------------------------------------")
         println(timings.data.mapValues(_.toSeconds))
     }
   }
