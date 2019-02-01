@@ -1,12 +1,11 @@
-package reviewssearch.storage.algebra
+package reviewssearch.storage
 
-import reviewssearch.storage.model.Review
-
+import reviewssearch.storage.model.{Review, WordCount}
 import org.apache.spark.sql.expressions.scalalang.typed.count
-import org.apache.spark.sql.functions.{col, desc, explode, split}
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{Dataset, Encoder}
 
-object ReviewsAlgebra {
+object ReviewsRepository {
   private final val Count = "count"
   private final val Value = "value"
   private final val Word = "word"
@@ -27,4 +26,10 @@ object ReviewsAlgebra {
       .count()
       .orderBy(desc(Count))
       .as[R]
+
+  def findTopUsedWords(reviews: Dataset[Review], minWordLength: Int, exclusions: Seq[String])(
+      implicit e: Encoder[WordCount]): Dataset[WordCount] =
+    countUsedWords[WordCount](Review.Fields.Text, WordCount.Delimiter, reviews)
+      .filter(not(col(WordCount.Fields.Word).isin(exclusions: _*)))
+      .filter(length(col(WordCount.Fields.Word)) > minWordLength)
 }
