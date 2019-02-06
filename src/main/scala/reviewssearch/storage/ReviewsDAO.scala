@@ -1,10 +1,11 @@
 package reviewssearch.storage
 
+import reviewssearch.storage.model.{Review, WordCount}
+import reviewssearch.storage.ReviewsRepository._
+
 import cats.effect.Sync
 import cats.implicits._
 import org.apache.spark.sql.Dataset
-import reviewssearch.storage.model.{Review, WordCount}
-import reviewssearch.storage.ReviewsRepository._
 
 class ReviewsDAO[F[_]: Sync](settings: Settings, reviews: F[Dataset[Review]]) {
   import settings.session.implicits._

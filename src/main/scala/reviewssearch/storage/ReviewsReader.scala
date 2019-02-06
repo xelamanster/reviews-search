@@ -17,6 +17,8 @@ object ReviewsReader {
 class ReviewsReader[F[_]: Sync](settings: Settings) {
   import settings.session.implicits._
 
+  private val dao = new ReviewsDAO[F](settings, read())
+
   def acquire(numberOfResults: Int, minWordLength: Int, exclusions: Seq[String])
     : F[(Timings.Timings, (Seq[(String, Long)], Seq[(String, Long)], Seq[WordCount]))] = {
 
@@ -38,5 +40,4 @@ class ReviewsReader[F[_]: Sync](settings: Settings) {
         .csv(settings.reviewsResource)
         .as[Review])
 
-  private val dao = new ReviewsDAO[F](settings, read())
 }
