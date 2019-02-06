@@ -2,10 +2,11 @@ package utils
 
 import cats.Monoid
 import cats.data.WriterT
-import cats.effect.Sync
-import scala.concurrent.duration.FiniteDuration
+import cats.effect.{Clock, Sync}
 
+import scala.concurrent.duration.FiniteDuration
 import cats.implicits._
+
 import scala.concurrent.duration._
 
 object Timings {
@@ -17,15 +18,17 @@ object Timings {
   }
 
   implicit class WithTimings[A, F[_]: Sync](action: F[A]) {
+    private val clock = Clock.create
+
     def timed(key: String): WriterT[F, Timings, A] =
       WriterT[F, Timings, A] {
         for {
-          startTime <- Sync[F].delay(currentTime()): F[FiniteDuration]
+          startTime <- currentTime()
           result <- action
-          endTime <- Sync[F].delay(currentTime()): F[FiniteDuration]
+          endTime <- currentTime()
         } yield (Timings(Map(key -> (endTime - startTime))), result)
       }
-  }
 
-  private def currentTime(): FiniteDuration = System.nanoTime().nanos
+    private def currentTime(): F[FiniteDuration] = clock.monotonic(MILLISECONDS).map(_.millis)
+  }
 }
