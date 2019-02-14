@@ -1,4 +1,8 @@
 package reviewssearch.translation
 
-case class TranslationRequest(input_lang: String, output_lang: String, text: String)
+sealed trait Lang
+case object En extends Lang
+case object Fr extends Lang
+
+case class TranslationRequest(input_lang: Lang, output_lang: Lang, text: String)
 case class TranslationRespond(text: String)
